@@ -1,31 +1,31 @@
 {
   "schemaVersion": 1,
-  "id": "clickmachine",
+  "id": "discholder",
   "version": "${version}",
-  "name": "Kenza's Click Machine",
-  "description": "Adds one block to the game: Auto Clicker. This autoclicker can be placed in the world and used to simulate left or right mouse clicks.",
+  "name": "Kenza's Disc Holder",
+  "description": ".",
   "authors": [
     "DmitryKenza"
   ],
   "contact": {
-    "homepage": "https://github.com/dmkenza/ClickMachine_Fabric",
-    "sources": "https://github.com/dmkenza/ClickMachine_Fabric"
+    "homepage": "",
+    "sources": ""
   },
 
   "license": "CC0-1.0",
-  "icon": "assets/clickmachine/logo.png",
+  "icon": "assets/discholder/logo.png",
 
   "environment": "*",
   "entrypoints": {
     "main": [
-      "com.kenza.clickmachine.ClickMachine"
+      "com.kenza.discholder.ClickMachine"
     ],
 
-    "client": [ "com.kenza.clickmachine.ClickMachineClient" ],
+    "client": [ "com.kenza.discholder.ClickMachineClient" ],
     "modmenu": []
   },
   "mixins": [
-    "clickmachine.mixins.json"
+    "discholder.mixins.json"
   ],
   "depends": {
     "fabricloader": ">=0.12.0",
