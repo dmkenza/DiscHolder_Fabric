@@ -1,14 +1,11 @@
 package com.kenza.discholder
 
+import com.kenza.discholder.utils.getSlotInBlock
 import net.minecraft.block.*
 import net.minecraft.block.entity.BlockEntity
-import net.minecraft.block.entity.HopperBlockEntity
-import net.minecraft.entity.LivingEntity
-import net.minecraft.entity.ai.pathing.NavigationType
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemPlacementContext
 import net.minecraft.item.ItemStack
-import net.minecraft.item.MusicDiscItem
 import net.minecraft.state.StateManager
 import net.minecraft.state.property.DirectionProperty
 import net.minecraft.state.property.Properties
@@ -69,10 +66,12 @@ class DiscHolderBlock(settings: Settings?) : BlockWithEntity(settings) {
             val facing: Direction = state[HORIZONTAL_FACING]
             val inc = if (facing === Direction.NORTH || facing === Direction.SOUTH) vec3d.x % 1 else vec3d.z % 1
 
-//            val slot: Int = getSlot(inc)
+            val slot: Int = getSlotInBlock(inc)
 //            if (slot != -1) {
             val heldItem: ItemStack = player.mainHandStack
             val blockEntity: DiscHolderBlockEntity? = world.getBlockEntity(pos) as? DiscHolderBlockEntity
+
+            debug("slot = $slot")
 
 //            if (blockEntity is DiscHolderBlockEntity) {
                 val discHolder = blockEntity as? DiscHolderBlockEntity
