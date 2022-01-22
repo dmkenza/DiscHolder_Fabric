@@ -1,7 +1,6 @@
 package com.kenza.discholder
 
-import com.mojang.blaze3d.platform.GlStateManager
-import com.mojang.blaze3d.systems.RenderSystem.enableBlend
+import com.kenza.discholder.utils.value
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.render.VertexConsumerProvider
 import net.minecraft.client.render.block.entity.BlockEntityRenderer
@@ -9,9 +8,8 @@ import net.minecraft.client.render.model.json.ModelTransformation
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.item.ItemStack
 import net.minecraft.state.property.Properties
-import net.minecraft.util.math.BlockBox.rotated
 import net.minecraft.util.math.Direction
-import net.minecraft.util.math.Quaternion
+import net.minecraft.util.math.Vec3f
 
 class DiscHolderBlockEntityRenderer : BlockEntityRenderer<DiscHolderBlockEntity> {
     override fun render(
@@ -33,9 +31,9 @@ class DiscHolderBlockEntityRenderer : BlockEntityRenderer<DiscHolderBlockEntity>
 
         val blockState = MinecraftClient.getInstance().world?.getBlockState(entity.pos) ?: return
 
-        val facing: Direction = blockState[Properties.HORIZONTAL_FACING]
+        val facing: Direction = blockState.getOrEmpty(Properties.HORIZONTAL_FACING).value ?: return
 
-        val isXAxis = facing.getAxis() === Direction.Axis.X
+        val isXAxis = facing.axis === Direction.Axis.X
         for (i in 0..6) {
             val item: ItemStack =  player.mainHandStack //entity.records.getStackInSlot(i)
             if (item.isEmpty) continue
@@ -45,9 +43,14 @@ class DiscHolderBlockEntityRenderer : BlockEntityRenderer<DiscHolderBlockEntity>
 
 
             matrices?.push() ?: return
+//            matrices.translate( shiftX,  shiftY,  shiftZ)
             matrices.translate( shiftX,  shiftY,  shiftZ)
 
-            if (!isXAxis) matrices.multiply(Quaternion(90f, 0.0f, 1.0f, 0.0f))
+//            matrices.translate( 0.5,  0.5,  0.5)
+
+            if (!isXAxis) matrices.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(90f))
+
+//            matrices.translate( -0.5,  -0.5,  -0.5)
 
             MinecraftClient.getInstance().itemRenderer.renderItem(
                 player.mainHandStack,

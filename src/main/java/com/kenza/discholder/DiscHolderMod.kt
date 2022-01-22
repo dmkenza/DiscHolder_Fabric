@@ -29,7 +29,6 @@ class DiscHolderMod : ModInitializer {
 
 
     override fun onInitialize() {
-        openLastWorldOnInit()
 
 
         DISC_BLOCK = DiscHolderBlock(
@@ -41,17 +40,25 @@ class DiscHolderMod : ModInitializer {
         Registry.register(Registry.ITEM, Identifier(MOD_ID, "blue_discholder"), DISC_BLOCK_ITEM)
 
 
-//        DISC_BLOCKENTITY_TYPE = FabricBlockEntityTypeBuilder.create<DiscHolderBlockEntity>(
-//            FabricBlockEntityTypeBuilder.Factory<DiscHolderBlockEntity> { pos: BlockPos?, state: BlockState? ->
-//                DiscHolderBlockEntity(
-//                    pos,
-//                    state
-//                )
-//            }, DISC_BLOCK
-//        ).build(null)
+        DISC_BLOCKENTITY_TYPE = FabricBlockEntityTypeBuilder.create<DiscHolderBlockEntity>(
+            FabricBlockEntityTypeBuilder.Factory<DiscHolderBlockEntity> { pos: BlockPos?, state: BlockState? ->
+                DiscHolderBlockEntity(
+                    pos,
+                    state
+                )
+            }, DISC_BLOCK
+        ).build(null)
+
+        Registry.register(Registry.BLOCK_ENTITY_TYPE, Identifier(MOD_ID, "blue_discholder"), DISC_BLOCKENTITY_TYPE)
 
 
+//        DISC_BLOCKENTITY_TYPE = BlockEntityType.Builder.create(::DiscHolderBlockEntity, DISC_BLOCK).build(null)
 
+        BlockEntityRendererRegistry.register(DISC_BLOCKENTITY_TYPE){
+            DiscHolderBlockEntityRenderer()
+        }
+
+        openLastWorldOnInit()
 
     }
 

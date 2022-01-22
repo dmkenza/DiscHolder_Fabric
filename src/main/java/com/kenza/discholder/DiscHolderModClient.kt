@@ -9,10 +9,6 @@ import net.minecraft.block.entity.BlockEntityType
 class DiscHolderModClient : ClientModInitializer {
     override fun onInitializeClient() {
 
-        DISC_BLOCKENTITY_TYPE = BlockEntityType.Builder.create(::DiscHolderBlockEntity, DISC_BLOCK).build(null)
 
-        BlockEntityRendererRegistry.register(DISC_BLOCKENTITY_TYPE){
-            DiscHolderBlockEntityRenderer()
-        }
     }
 }

@@ -8,6 +8,7 @@ import net.minecraft.client.gui.screen.TitleScreen
 import net.minecraft.client.sound.PositionedSoundInstance
 import net.minecraft.sound.SoundEvents
 import net.minecraft.text.TranslatableText
+import java.util.*
 
 
 private var initTitleCounter = 0
@@ -39,4 +40,7 @@ private fun onScreenInit(screen: Screen?, buttons: ScreenInitCallback.ButtonList
         }
     }
 }
+
+val <T> Optional<T>.value: T?
+    get() = orElse(null)
 

@@ -8,15 +8,19 @@ import net.minecraft.entity.ai.pathing.NavigationType
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemPlacementContext
 import net.minecraft.item.ItemStack
+import net.minecraft.item.MusicDiscItem
 import net.minecraft.state.StateManager
 import net.minecraft.state.property.DirectionProperty
 import net.minecraft.state.property.Properties
 import net.minecraft.util.ActionResult
 import net.minecraft.util.BlockRotation
 import net.minecraft.util.Hand
+import net.minecraft.util.ItemScatterer
+import net.minecraft.util.collection.DefaultedList
 import net.minecraft.util.hit.BlockHitResult
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
+import net.minecraft.util.math.Vec3d
 import net.minecraft.util.shape.VoxelShape
 import net.minecraft.world.BlockView
 import net.minecraft.world.World
@@ -59,6 +63,35 @@ class DiscHolderBlock(settings: Settings?) : BlockWithEntity(settings) {
         hitResult: BlockHitResult
     ): ActionResult {
 
+
+        if (!world.isClient) {
+            val vec3d: Vec3d = hitResult.pos
+            val facing: Direction = state[HORIZONTAL_FACING]
+            val inc = if (facing === Direction.NORTH || facing === Direction.SOUTH) vec3d.x % 1 else vec3d.z % 1
+
+//            val slot: Int = getSlot(inc)
+//            if (slot != -1) {
+            val heldItem: ItemStack = player.mainHandStack
+            val blockEntity: DiscHolderBlockEntity? = world.getBlockEntity(pos) as? DiscHolderBlockEntity
+
+//            if (blockEntity is DiscHolderBlockEntity) {
+                val discHolder = blockEntity as? DiscHolderBlockEntity
+//                if (heldItem.item is MusicDiscItem && discHolder.records.getStackInSlot(slot).isEmpty()) {
+//                    discHolder.records.setStackInSlot(slot, heldItem.copy())
+//                    player.getHeldItem(handIn).shrink(1)
+//                } else if (heldItem.isEmpty && !discHolder.records.getStackInSlot(slot).isEmpty()) {
+//                    val record: ItemStack = discHolder.records.extractItem(slot, 64, false)
+//                    world.addEntity(ItemEntity(world, player.posX, pos.y + .5, player.posZ, record))
+                val list = DefaultedList.ofSize(1, ItemStack.EMPTY)
+//                list.add(heldItem)
+                ItemScatterer.spawn(world, pos.x.toDouble(), pos.y.toDouble(), pos.z.toDouble(), player.mainHandStack)
+
+//                }
+//            }
+//            }
+
+        }
+
 //        HopperBlock
 
 //        screenHandler?.let {
@@ -68,19 +101,19 @@ class DiscHolderBlock(settings: Settings?) : BlockWithEntity(settings) {
         return ActionResult.SUCCESS
     }
 
-    override fun onPlaced(
-        world: World?,
-        pos: BlockPos?,
-        state: BlockState?,
-        placer: LivingEntity?,
-        itemStack: ItemStack?
-    ) {
-//        (world?.getBlockEntity(pos) as? AutoClickerBlockEntity)?.apply {
-//            placerEntityUuid = placer?.uuid
-//            this.markDirty()
-//        }
-        super.onPlaced(world, pos, state, placer, itemStack)
-    }
+//    override fun onPlaced(
+//        world: World?,
+//        pos: BlockPos?,
+//        state: BlockState?,
+//        placer: LivingEntity?,
+//        itemStack: ItemStack?
+//    ) {
+////        (world?.getBlockEntity(pos) as? AutoClickerBlockEntity)?.apply {
+////            placerEntityUuid = placer?.uuid
+////            this.markDirty()
+////        }
+//        super.onPlaced(world, pos, state, placer, itemStack)
+//    }
 
 
     override fun createBlockEntity(pos: BlockPos, state: BlockState): BlockEntity? {
@@ -90,6 +123,8 @@ class DiscHolderBlock(settings: Settings?) : BlockWithEntity(settings) {
     override fun getRenderType(state: BlockState): BlockRenderType {
         return BlockRenderType.MODEL
     }
+
+
 //
 //    override fun <T : BlockEntity?> getTicker(
 //        world: World,
@@ -104,17 +139,17 @@ class DiscHolderBlock(settings: Settings?) : BlockWithEntity(settings) {
 //
 //    }
 
-    @Suppress("DEPRECATION")
-    override fun onStateReplaced(state: BlockState, world: World, pos: BlockPos, newState: BlockState, moved: Boolean) {
-//        val oldBlockEntity = world.getBlockEntity(pos) as? AutoClickerBlockEntity
-//        super.onStateReplaced(state, world, pos, newState, moved)
-//        if (world.isClient) return
-//
-//        if (oldBlockEntity?.items?.isNotEmpty() == true) {
-//            ItemScatterer.spawn(world, pos, oldBlockEntity.items)
-//            world.updateComparators(pos, this)
-//        }
-    }
+//    @Suppress("DEPRECATION")
+//    override fun onStateReplaced(state: BlockState, world: World, pos: BlockPos, newState: BlockState, moved: Boolean) {
+////        val oldBlockEntity = world.getBlockEntity(pos) as? AutoClickerBlockEntity
+////        super.onStateReplaced(state, world, pos, newState, moved)
+////        if (world.isClient) return
+////
+////        if (oldBlockEntity?.items?.isNotEmpty() == true) {
+////            ItemScatterer.spawn(world, pos, oldBlockEntity.items)
+////            world.updateComparators(pos, this)
+////        }
+//    }
 
 
     fun getFacing(state: BlockState): Direction = state[HORIZONTAL_FACING]
