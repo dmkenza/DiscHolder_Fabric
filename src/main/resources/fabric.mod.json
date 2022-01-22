@@ -18,10 +18,12 @@
   "environment": "*",
   "entrypoints": {
     "main": [
-      "com.kenza.discholder.ClickMachine"
+      "com.kenza.discholder.DiscHolderMod"
     ],
 
-    "client": [ "com.kenza.discholder.ClickMachineClient" ],
+    "client": [
+      "com.kenza.discholder.DiscHolderModClient"
+    ],
     "modmenu": []
   },
   "mixins": [

@@ -5,7 +5,7 @@ import com.kenza.discholder.utils.openLastWorldOnInit
 import net.fabricmc.api.ModInitializer
 import org.apache.logging.log4j.LogManager
 
-class ClickMachine : ModInitializer {
+class DiscHolderMod : ModInitializer {
 
 
     //data get entity @s SelectedItem
@@ -13,7 +13,6 @@ class ClickMachine : ModInitializer {
 
 
     override fun onInitialize() {
-
         openLastWorldOnInit()
     }
 
@@ -21,10 +20,10 @@ class ClickMachine : ModInitializer {
     companion object {
 
         @JvmField
-        val ID = "discholder"
+        val MOD_ID = "discholder"
 
         @JvmField
-        val MOD_ID = identifier(ID)
+        val ID = identifier(MOD_ID)
 
 
         @JvmField
@@ -34,5 +33,5 @@ class ClickMachine : ModInitializer {
 }
 
 fun Any.debug(msg: String) {
-    ClickMachine.LOGGER.debug(msg)
+    DiscHolderMod.LOGGER.debug(msg)
 }

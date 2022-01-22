@@ -1,6 +1,6 @@
 package com.kenza.discholder.utils
 
-import com.kenza.discholder.ClickMachine
+import com.kenza.discholder.DiscHolderMod
 import net.fabricmc.fabric.api.screenhandler.v1.ScreenHandlerRegistry
 import net.fabricmc.fabric.impl.screenhandler.ExtendedScreenHandlerType
 import net.minecraft.block.Block
@@ -21,7 +21,7 @@ import net.minecraft.util.registry.Registry
 
 val EMPTY_INT_ARRAY = intArrayOf()
 
-fun identifier(id: String) = Identifier(ClickMachine.ID, id)
+fun identifier(id: String) = Identifier(DiscHolderMod.MOD_ID, id)
 
 fun blockSpriteId(id: String) = SpriteIdentifier(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE, identifier(id))
 

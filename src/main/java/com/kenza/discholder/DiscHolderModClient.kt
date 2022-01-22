@@ -2,7 +2,7 @@ package com.kenza.discholder
 
 import net.fabricmc.api.ClientModInitializer
 
-class ClickMachineClient : ClientModInitializer {
+class DiscHolderModClient : ClientModInitializer {
     override fun onInitializeClient() {
 
     }
