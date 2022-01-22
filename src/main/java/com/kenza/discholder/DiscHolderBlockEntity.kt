@@ -7,6 +7,6 @@ import net.minecraft.block.entity.BlockEntity
 import net.minecraft.screen.NamedScreenHandlerFactory
 
 class DiscHolderBlockEntity(pos: BlockPos?, state: BlockState?) :
-    BlockEntity(BlockEntityType.CHEST, pos, state) {
+    BlockEntity(DiscHolderMod.DISC_BLOCKENTITY_TYPE, pos, state) {
 
 }
