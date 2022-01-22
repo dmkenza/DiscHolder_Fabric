@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "###",
+    "#X#",
+    "#Y#"
+  ],
+  "key": {
+    "X": {
+      "item": "minecraft:chorus_flower"
+    },
+
+    "#": {
+      "item": "minecraft:polished_diorite"
+    },
+    "Y": {
+      "item": "minecraft:redstone_block"
+    }
+  },
+  "result": {
+    "item": "clickmachine:auto_clicker"
+  }
+}
