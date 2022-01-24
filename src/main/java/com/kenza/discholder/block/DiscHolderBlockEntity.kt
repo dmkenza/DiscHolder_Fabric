@@ -19,7 +19,7 @@ import net.minecraft.util.ItemScatterer
 import net.minecraft.util.collection.DefaultedList
 import net.minecraft.world.World
 
-class DiscHolderBlockEntity(pos: BlockPos?, state: BlockState?) :
+class DiscHolderBlockEntity( pos: BlockPos?, state: BlockState?) :
     BlockEntity(DiscHolderMod.DISC_BLOCKENTITY_TYPE, pos, state), ImplementedInventory, NamedScreenHandlerFactory {
 
     private var inventoriesItems = DefaultedList.ofSize(INVENTORY_SIZE, ItemStack.EMPTY)

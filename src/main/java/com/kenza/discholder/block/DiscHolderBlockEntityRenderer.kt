@@ -4,6 +4,8 @@ import com.kenza.discholder.utils.getSlotInBlock
 import com.kenza.discholder.utils.toVec3d
 import com.kenza.discholder.utils.value
 import net.minecraft.client.MinecraftClient
+import net.minecraft.client.render.RenderLayer
+import net.minecraft.client.render.RenderLayers
 import net.minecraft.client.render.VertexConsumerProvider
 import net.minecraft.client.render.block.entity.BlockEntityRenderer
 import net.minecraft.client.render.model.json.ModelTransformation
@@ -47,9 +49,17 @@ class DiscHolderBlockEntityRenderer : BlockEntityRenderer<DiscHolderBlockEntity>
 
 
 
+
             if (itemStack.isEmpty) continue
 
             val discItem = (itemStack.item as? MusicDiscItem)
+
+            val slot = getShownSlot(entity, facing)
+
+            if (slot == i && discItem != null) {
+                val text = discItem.description.formatted()
+                renderText(matrices, vertexConsumers, slot,  text ,isXAxis ,light)
+            }
 
 
             val shiftX = if (isXAxis) .5 - .03125 else .125 + .125 * i
@@ -69,17 +79,12 @@ class DiscHolderBlockEntityRenderer : BlockEntityRenderer<DiscHolderBlockEntity>
                 overlay,
                 matrices,
                 vertexConsumers,
-                0
+                -1000
             )
 
             matrices.pop()
 
-            val slot = getShownSlot(entity, facing)
 
-            if (slot == i && discItem != null) {
-                val text = discItem.description.formatted()
-                renderText(matrices, vertexConsumers, slot,  text ,isXAxis ,light)
-            }
 
         }
 
@@ -142,6 +147,17 @@ class DiscHolderBlockEntityRenderer : BlockEntityRenderer<DiscHolderBlockEntity>
         val modelViewMatrix: Matrix4f = matrices.peek().positionMatrix
 
 
+        val x1 = vertexConsumers.getBuffer(RenderLayer.getCutout())
+//        vertexConsumers.getBuffer(RenderLayers.getBlockLayer(entity.cachedState)),
+
+        mc.textRenderer.draw(
+            matrices,
+            text,
+            offset,
+            0f,
+            553648127
+        )
+
         mc.textRenderer.draw(
             text,
             offset,
@@ -154,6 +170,7 @@ class DiscHolderBlockEntityRenderer : BlockEntityRenderer<DiscHolderBlockEntity>
             1056964608,
             light
         )
+//
         mc.textRenderer.draw(text, offset, 0f, -1, false, modelViewMatrix, vertexConsumers, true, 0, light)
 
 

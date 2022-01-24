@@ -23,10 +23,12 @@ import net.minecraft.item.ItemGroup
 import net.minecraft.network.PacketByteBuf
 import net.minecraft.screen.ScreenHandlerContext
 import net.minecraft.screen.ScreenHandlerType
+import net.minecraft.util.DyeColor
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.registry.Registry
 import org.apache.logging.log4j.LogManager
+import java.util.*
 
 class DiscHolderMod : ModInitializer {
 
@@ -35,17 +37,26 @@ class DiscHolderMod : ModInitializer {
     //give @p iron_pickaxe{Damage:10000} 20
 
 
+
     override fun onInitialize() {
 
+
+        test1()
+
+        openLastWorldOnInit()
+
+    }
+
+
+    fun test1(){
 
         DISC_BLOCK = DiscHolderBlock(
             FabricBlockSettings.of(Material.STONE).strength(6f).breakByTool(FabricToolTags.PICKAXES, 2).requiresTool(),
             ::DiscHolderBlockEntityGuiDescription
         )
-        Registry.register(Registry.BLOCK, Identifier(MOD_ID, "blue_discholder"), DISC_BLOCK)
 
-        val DISC_BLOCK_ITEM = BlockItem(DISC_BLOCK, Item.Settings().group(ItemGroup.REDSTONE))
-        Registry.register(Registry.ITEM, Identifier(MOD_ID, "blue_discholder"), DISC_BLOCK_ITEM)
+        DISC_BLOCK_ITEM = BlockItem(Companion.DISC_BLOCK, Item.Settings().group(ItemGroup.REDSTONE))
+
 
 
         DISC_BLOCKENTITY_TYPE = FabricBlockEntityTypeBuilder.create<DiscHolderBlockEntity>(
@@ -57,41 +68,59 @@ class DiscHolderMod : ModInitializer {
             }, DISC_BLOCK
         ).build(null)
 
-        Registry.register(Registry.BLOCK_ENTITY_TYPE, Identifier(MOD_ID, "blue_discholder"), DISC_BLOCKENTITY_TYPE)
-
-
-//        DISC_BLOCKENTITY_TYPE = BlockEntityType.Builder.create(::DiscHolderBlockEntity, DISC_BLOCK).build(null)
 
         BlockEntityRendererRegistry.register(DISC_BLOCKENTITY_TYPE) {
             DiscHolderBlockEntityRenderer()
         }
 
+        val x1 = "blue_discholder"
+        registerBlockByName(x1)
+
+//        DyeColor.values().map { dyeColor ->
+//
+//            val x1 = "blue_discholder"
+//            val itemName = dyeColor.name.lowercase() + "_discholder"
+//
+//            registerBlockByName(itemName)
+////
+////            DiscHolderBlock(
+////                FabricBlockSettings.of(Material.WOOD).strength(6f).breakByTool(FabricToolTags.AXES, 2).requiresTool(),
+////                ::DiscHolderBlockEntityGuiDescription
+////            )
+//        }
+
+    }
+
+    fun registerBlockByName( itemName : String){
+
+
+        Registry.register(Registry.BLOCK, Identifier(MOD_ID,  itemName), DISC_BLOCK)
+        Registry.register(Registry.ITEM, Identifier(MOD_ID, itemName), DISC_BLOCK_ITEM)
+        Registry.register(Registry.BLOCK_ENTITY_TYPE, Identifier(MOD_ID, itemName), DISC_BLOCKENTITY_TYPE)
+
 
 
         DISC_BLOCKENTITY_GUI_HANDLER_TYPE = ScreenHandlerRegistry.registerExtended<DiscHolderBlockEntityGuiDescription>(
             Identifier(
-                MOD_ID, "blue_discholder"
+                MOD_ID, itemName
             ),
             ScreenHandlerRegistry.ExtendedClientHandlerFactory<DiscHolderBlockEntityGuiDescription> { syncId: Int, inv: PlayerInventory, buf: PacketByteBuf ->
                 DiscHolderBlockEntityGuiDescription(
                     syncId, inv, ScreenHandlerContext.create(inv.player.world, buf.readBlockPos())
                 )
             })
-
-        openLastWorldOnInit()
-
     }
+
 
 
     companion object {
 
 
-//        private val discholders: Set<Block> = HashSet()
+        private val discholders: Set<Block> = HashSet()
 
         lateinit var DISC_BLOCK: DiscHolderBlock
-
+        lateinit var DISC_BLOCK_ITEM: BlockItem
         lateinit var DISC_BLOCKENTITY_TYPE: BlockEntityType<DiscHolderBlockEntity>
-
         lateinit var DISC_BLOCKENTITY_GUI_HANDLER_TYPE: ScreenHandlerType<DiscHolderBlockEntityGuiDescription>
 
 

@@ -67,7 +67,7 @@ class DiscHolderBlock(
         hand: Hand,
         hitResult: BlockHitResult
     ): ActionResult {
-        if (world.isClient) return ActionResult.CONSUME
+//        if (world.isClient) return ActionResult.CONSUME
 
         if (Screen.hasShiftDown()) {
 
