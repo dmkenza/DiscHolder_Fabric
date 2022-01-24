@@ -1,20 +1,28 @@
 package com.kenza.discholder
 
+import com.kenza.discholder.block.DiscHolderBlock
+import com.kenza.discholder.block.DiscHolderBlockEntity
+import com.kenza.discholder.block.DiscHolderBlockEntityGuiDescription
+import com.kenza.discholder.block.DiscHolderBlockEntityRenderer
 import com.kenza.discholder.utils.identifier
 import com.kenza.discholder.utils.openLastWorldOnInit
 import net.fabricmc.api.ModInitializer
 import net.fabricmc.fabric.api.`object`.builder.v1.block.FabricBlockSettings
 import net.fabricmc.fabric.api.`object`.builder.v1.block.entity.FabricBlockEntityTypeBuilder
 import net.fabricmc.fabric.api.client.rendering.v1.BlockEntityRendererRegistry
-import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry
+import net.fabricmc.fabric.api.screenhandler.v1.ScreenHandlerRegistry
 import net.fabricmc.fabric.api.tool.attribute.v1.FabricToolTags
+import net.minecraft.block.Block
 import net.minecraft.block.BlockState
 import net.minecraft.block.Material
 import net.minecraft.block.entity.BlockEntityType
-import net.minecraft.entity.EntityType
+import net.minecraft.entity.player.PlayerInventory
 import net.minecraft.item.BlockItem
 import net.minecraft.item.Item
 import net.minecraft.item.ItemGroup
+import net.minecraft.network.PacketByteBuf
+import net.minecraft.screen.ScreenHandlerContext
+import net.minecraft.screen.ScreenHandlerType
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.registry.Registry
@@ -27,12 +35,12 @@ class DiscHolderMod : ModInitializer {
     //give @p iron_pickaxe{Damage:10000} 20
 
 
-
     override fun onInitialize() {
 
 
         DISC_BLOCK = DiscHolderBlock(
-            FabricBlockSettings.of(Material.STONE).strength(6f).breakByTool(FabricToolTags.PICKAXES, 2).requiresTool()
+            FabricBlockSettings.of(Material.STONE).strength(6f).breakByTool(FabricToolTags.PICKAXES, 2).requiresTool(),
+            ::DiscHolderBlockEntityGuiDescription
         )
         Registry.register(Registry.BLOCK, Identifier(MOD_ID, "blue_discholder"), DISC_BLOCK)
 
@@ -54,9 +62,21 @@ class DiscHolderMod : ModInitializer {
 
 //        DISC_BLOCKENTITY_TYPE = BlockEntityType.Builder.create(::DiscHolderBlockEntity, DISC_BLOCK).build(null)
 
-        BlockEntityRendererRegistry.register(DISC_BLOCKENTITY_TYPE){
+        BlockEntityRendererRegistry.register(DISC_BLOCKENTITY_TYPE) {
             DiscHolderBlockEntityRenderer()
         }
+
+
+
+        DISC_BLOCKENTITY_GUI_HANDLER_TYPE = ScreenHandlerRegistry.registerExtended<DiscHolderBlockEntityGuiDescription>(
+            Identifier(
+                MOD_ID, "blue_discholder"
+            ),
+            ScreenHandlerRegistry.ExtendedClientHandlerFactory<DiscHolderBlockEntityGuiDescription> { syncId: Int, inv: PlayerInventory, buf: PacketByteBuf ->
+                DiscHolderBlockEntityGuiDescription(
+                    syncId, inv, ScreenHandlerContext.create(inv.player.world, buf.readBlockPos())
+                )
+            })
 
         openLastWorldOnInit()
 
@@ -65,9 +85,14 @@ class DiscHolderMod : ModInitializer {
 
     companion object {
 
+
+//        private val discholders: Set<Block> = HashSet()
+
         lateinit var DISC_BLOCK: DiscHolderBlock
 
         lateinit var DISC_BLOCKENTITY_TYPE: BlockEntityType<DiscHolderBlockEntity>
+
+        lateinit var DISC_BLOCKENTITY_GUI_HANDLER_TYPE: ScreenHandlerType<DiscHolderBlockEntityGuiDescription>
 
 
         @JvmField

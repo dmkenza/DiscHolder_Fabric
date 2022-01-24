@@ -1,4 +1,4 @@
-package com.kenza.discholder
+package com.kenza.discholder.block
 
 import com.kenza.discholder.utils.getSlotInBlock
 import com.kenza.discholder.utils.toVec3d
@@ -9,7 +9,9 @@ import net.minecraft.client.render.block.entity.BlockEntityRenderer
 import net.minecraft.client.render.model.json.ModelTransformation
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.item.ItemStack
+import net.minecraft.item.MusicDiscItem
 import net.minecraft.state.property.Properties
+import net.minecraft.text.MutableText
 import net.minecraft.util.hit.HitResult
 import net.minecraft.util.math.Direction
 import net.minecraft.util.math.Matrix4f
@@ -40,8 +42,16 @@ class DiscHolderBlockEntityRenderer : BlockEntityRenderer<DiscHolderBlockEntity>
 
         val isXAxis = facing.axis === Direction.Axis.X
         for (i in 0..6) {
-            val item: ItemStack = player.mainHandStack //entity.records.getStackInSlot(i)
-            if (item.isEmpty) continue
+//            val item: ItemStack = player.mainHandStack //entity.records.getStackInSlot(i)
+            val itemStack: ItemStack = entity.getDiscInSlot(i)
+
+
+
+            if (itemStack.isEmpty) continue
+
+            val discItem = (itemStack.item as? MusicDiscItem)
+
+
             val shiftX = if (isXAxis) .5 - .03125 else .125 + .125 * i
             val shiftY = .375
             val shiftZ = if (isXAxis) .125 + .125 * i else .5 + .03125
@@ -53,7 +63,7 @@ class DiscHolderBlockEntityRenderer : BlockEntityRenderer<DiscHolderBlockEntity>
 
 
             MinecraftClient.getInstance().itemRenderer.renderItem(
-                player.mainHandStack,
+                itemStack,
                 ModelTransformation.Mode.FIXED,
                 light,
                 overlay,
@@ -64,17 +74,19 @@ class DiscHolderBlockEntityRenderer : BlockEntityRenderer<DiscHolderBlockEntity>
 
             matrices.pop()
 
+            val slot = getShownSlot(entity, facing)
+
+            if (slot == i && discItem != null) {
+                val text = discItem.description.formatted()
+                renderText(matrices, vertexConsumers, slot,  text ,isXAxis ,light)
+            }
+
         }
 
-        val slot = getSlot(entity, facing)
-
-        if (slot != -1) {
-            renderText(matrices, slot)
-        }
 
     }
 
-    private fun getSlot(
+    private fun getShownSlot(
         entity: DiscHolderBlockEntity,
         facing: Direction,
     ): Int {
@@ -98,20 +110,24 @@ class DiscHolderBlockEntityRenderer : BlockEntityRenderer<DiscHolderBlockEntity>
 
     private fun renderText(
         matrices: MatrixStack,
-        slot: Int
+        vertexConsumers: VertexConsumerProvider,
+        slot: Int,
+        text: MutableText,
+        isXAxis: Boolean,
+        light: Int
     ) {
 
         matrices.push()
 
-        val shiftX = .125 + .125 * slot
+
+        val shiftX = if (isXAxis) .5 - .03125 else .125 + .125 * slot
         val shiftY = .375
-        val shiftZ = .5 + .03125
+        val shiftZ = if (isXAxis) .125 + .125 * slot else .5 + .03125
+
 
         val renderManager = MinecraftClient.getInstance().entityRenderDispatcher
 
         matrices.translate(shiftX, shiftY + .7f, shiftZ)
-
-        val immediate = mc.bufferBuilders.effectVertexConsumers
 
 
         val rotation: Quaternion = renderManager.camera.getRotation().copy()
@@ -120,26 +136,25 @@ class DiscHolderBlockEntityRenderer : BlockEntityRenderer<DiscHolderBlockEntity>
 
         matrices.scale(-0.025f, -0.025f, 0.025f)
 
-        val time1 = "Rainbow Dash $slot"
 
-        val offset = (-mc.textRenderer.getWidth(time1) / 2).toFloat()
+        val offset = (-mc.textRenderer.getWidth(text) / 2).toFloat()
 
         val modelViewMatrix: Matrix4f = matrices.peek().positionMatrix
 
 
         mc.textRenderer.draw(
-            time1,
+            text,
             offset,
             0f,
             553648127,
             false,
             modelViewMatrix,
-            immediate,
+            vertexConsumers,
             true,
             1056964608,
-            15728640
+            light
         )
-        mc.textRenderer.draw(time1, offset, 0f, -1, false, modelViewMatrix, immediate, true, 0, 15728640)
+        mc.textRenderer.draw(text, offset, 0f, -1, false, modelViewMatrix, vertexConsumers, true, 0, light)
 
 
         matrices.pop()

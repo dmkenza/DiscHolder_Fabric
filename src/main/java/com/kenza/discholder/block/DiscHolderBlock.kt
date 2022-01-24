@@ -1,11 +1,17 @@
-package com.kenza.discholder
+package com.kenza.discholder.block
 
+import com.kenza.discholder.common.IRScreenHandlerFactory
 import com.kenza.discholder.utils.getSlotInBlock
 import net.minecraft.block.*
 import net.minecraft.block.entity.BlockEntity
+import net.minecraft.client.gui.screen.Screen
 import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.entity.player.PlayerInventory
 import net.minecraft.item.ItemPlacementContext
 import net.minecraft.item.ItemStack
+import net.minecraft.item.MusicDiscItem
+import net.minecraft.screen.ScreenHandler
+import net.minecraft.screen.ScreenHandlerContext
 import net.minecraft.state.StateManager
 import net.minecraft.state.property.DirectionProperty
 import net.minecraft.state.property.Properties
@@ -13,7 +19,6 @@ import net.minecraft.util.ActionResult
 import net.minecraft.util.BlockRotation
 import net.minecraft.util.Hand
 import net.minecraft.util.ItemScatterer
-import net.minecraft.util.collection.DefaultedList
 import net.minecraft.util.hit.BlockHitResult
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
@@ -22,7 +27,10 @@ import net.minecraft.util.shape.VoxelShape
 import net.minecraft.world.BlockView
 import net.minecraft.world.World
 
-class DiscHolderBlock(settings: Settings?) : BlockWithEntity(settings) {
+class DiscHolderBlock(
+    settings: Settings?,
+    val screenHandler: ((Int, PlayerInventory, ScreenHandlerContext) -> ScreenHandler)?,
+) : BlockWithEntity(settings) {
 
 
     val SHAPE: VoxelShape = createCuboidShape(0.01, 0.01, .01, 16.0, 6.0, 16.0)
@@ -59,37 +67,51 @@ class DiscHolderBlock(settings: Settings?) : BlockWithEntity(settings) {
         hand: Hand,
         hitResult: BlockHitResult
     ): ActionResult {
+        if (world.isClient) return ActionResult.CONSUME
 
+        if (Screen.hasShiftDown()) {
 
-        if (!world.isClient) {
+            screenHandler?.let {
+                player.openHandledScreen(IRScreenHandlerFactory(screenHandler, pos!!))
+            }
+
+        } else {
+
+//            if (!world.isClient) {
             val vec3d: Vec3d = hitResult.pos
             val facing: Direction = state[HORIZONTAL_FACING]
             val inc = if (facing === Direction.NORTH || facing === Direction.SOUTH) vec3d.x % 1 else vec3d.z % 1
 
             val slot: Int = getSlotInBlock(inc)
-//            if (slot != -1) {
-            val heldItem: ItemStack = player.mainHandStack
+//                val heldItem: ItemStack = player.mainHandStack
             val blockEntity: DiscHolderBlockEntity? = world.getBlockEntity(pos) as? DiscHolderBlockEntity
 
-            debug("slot = $slot")
+            val itemStack = blockEntity?.items?.getOrNull(slot)
 
-//            if (blockEntity is DiscHolderBlockEntity) {
-                val discHolder = blockEntity as? DiscHolderBlockEntity
-//                if (heldItem.item is MusicDiscItem && discHolder.records.getStackInSlot(slot).isEmpty()) {
-//                    discHolder.records.setStackInSlot(slot, heldItem.copy())
-//                    player.getHeldItem(handIn).shrink(1)
-//                } else if (heldItem.isEmpty && !discHolder.records.getStackInSlot(slot).isEmpty()) {
-//                    val record: ItemStack = discHolder.records.extractItem(slot, 64, false)
-//                    world.addEntity(ItemEntity(world, player.posX, pos.y + .5, player.posZ, record))
-                val list = DefaultedList.ofSize(1, ItemStack.EMPTY)
-//                list.add(heldItem)
-                ItemScatterer.spawn(world, pos.x.toDouble(), pos.y.toDouble(), pos.z.toDouble(), player.mainHandStack)
+            if (slot != -1) {
 
-//                }
-//            }
-//            }
+                if (itemStack?.isEmpty == true && player.mainHandStack.hasMusicDiscItemType()) {
+                    blockEntity.items.set(slot, player.mainHandStack.copy())
+                    player.mainHandStack.decrement(1)
+                    blockEntity.markDirty()
+                } else {
 
+//                    val itemEntity = ItemEntity(world, pos.x.toDouble(), pos.y.toDouble(), pos.z.toDouble(), itemStack)
+                    player.inventory.offerOrDrop(itemStack);
+                    itemStack?.decrement(1)
+//                    if (!player.giveItemStack(itemStack)) {
+//                        player.dropItem(itemStack?.copy(), false)
+//                        itemStack?.decrement(1)
+//                    }
+
+//                    world.spawnEntity(itemEntity)
+                }
+
+            }
+
+//            ItemScatterer.spawn(world, pos.x.toDouble(), pos.y.toDouble(), pos.z.toDouble(), player.mainHandStack)
         }
+
 
 //        HopperBlock
 
@@ -98,6 +120,18 @@ class DiscHolderBlock(settings: Settings?) : BlockWithEntity(settings) {
 //        }
 
         return ActionResult.SUCCESS
+    }
+
+    @Suppress("DEPRECATION")
+    override fun onStateReplaced(state: BlockState, world: World, pos: BlockPos, newState: BlockState, moved: Boolean) {
+        val oldBlockEntity = world.getBlockEntity(pos) as? DiscHolderBlockEntity
+        super.onStateReplaced(state, world, pos, newState, moved)
+        if (world.isClient) return
+
+        if (oldBlockEntity?.items?.isNotEmpty() == true) {
+            ItemScatterer.spawn(world, pos, oldBlockEntity.items)
+            world.updateComparators(pos, this)
+        }
     }
 
 //    override fun onPlaced(
@@ -164,4 +198,8 @@ class DiscHolderBlock(settings: Settings?) : BlockWithEntity(settings) {
                 BlockRotation.COUNTERCLOCKWISE_90 -> direction.rotateYCounterclockwise()
             }
     }
+}
+
+private fun ItemStack?.hasMusicDiscItemType(): Boolean {
+    return (this?.item is MusicDiscItem)
 }
