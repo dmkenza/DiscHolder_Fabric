@@ -147,7 +147,7 @@ class DiscHolderBlockEntityRenderer : BlockEntityRenderer<DiscHolderBlockEntity>
         val modelViewMatrix: Matrix4f = matrices.peek().positionMatrix
 
 
-        val x1 = vertexConsumers.getBuffer(RenderLayer.getCutout())
+//        val x1 = vertexConsumers.getBuffer(RenderLayer.getCutout())
 //        vertexConsumers.getBuffer(RenderLayers.getBlockLayer(entity.cachedState)),
 
         mc.textRenderer.draw(

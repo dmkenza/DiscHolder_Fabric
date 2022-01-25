@@ -1,9 +1,12 @@
 package com.kenza.discholder.block
 
+import com.kenza.discholder.DiscHolderMod
 import com.kenza.discholder.common.IRScreenHandlerFactory
 import com.kenza.discholder.utils.getSlotInBlock
 import net.minecraft.block.*
 import net.minecraft.block.entity.BlockEntity
+import net.minecraft.block.entity.BlockEntityTicker
+import net.minecraft.block.entity.BlockEntityType
 import net.minecraft.client.gui.screen.Screen
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.entity.player.PlayerInventory
@@ -26,6 +29,7 @@ import net.minecraft.util.math.Vec3d
 import net.minecraft.util.shape.VoxelShape
 import net.minecraft.world.BlockView
 import net.minecraft.world.World
+import net.minecraft.world.event.listener.GameEventListener
 
 class DiscHolderBlock(
     settings: Settings?,
@@ -59,6 +63,17 @@ class DiscHolderBlock(
         return state.with(HORIZONTAL_FACING, getRotated(state[HORIZONTAL_FACING], rotation))
     }
 
+
+    override fun <T : BlockEntity?> getTicker(
+        world: World,
+        state: BlockState?,
+        type: BlockEntityType<T>?
+    ): BlockEntityTicker<T>? {
+
+        return BlockEntityTicker { _, _, _, blockEntity -> (blockEntity as? DiscHolderBlockEntity)?.tick() }
+
+    }
+
     override fun onUse(
         state: BlockState,
         world: World,
@@ -69,42 +84,38 @@ class DiscHolderBlock(
     ): ActionResult {
 //        if (world.isClient) return ActionResult.CONSUME
 
-        if (Screen.hasShiftDown()) {
-
-            screenHandler?.let {
-                player.openHandledScreen(IRScreenHandlerFactory(screenHandler, pos!!))
-            }
-
-        } else {
 
 //            if (!world.isClient) {
-            val vec3d: Vec3d = hitResult.pos
-            val facing: Direction = state[HORIZONTAL_FACING]
-            val inc = if (facing === Direction.NORTH || facing === Direction.SOUTH) vec3d.x % 1 else vec3d.z % 1
+        val vec3d: Vec3d = hitResult.pos
+        val facing: Direction = state[HORIZONTAL_FACING]
+        val inc = if (facing === Direction.NORTH || facing === Direction.SOUTH) vec3d.x % 1 else vec3d.z % 1
 
-            val slot: Int = getSlotInBlock(inc)
+        val slot: Int = getSlotInBlock(inc)
 //                val heldItem: ItemStack = player.mainHandStack
-            val blockEntity: DiscHolderBlockEntity? = world.getBlockEntity(pos) as? DiscHolderBlockEntity
+        val blockEntity: DiscHolderBlockEntity? = world.getBlockEntity(pos) as? DiscHolderBlockEntity
 
-            val itemStack = blockEntity?.items?.getOrNull(slot)
+        val itemStackInSlot = blockEntity?.items?.getOrNull(slot)
 
-            if (slot != -1) {
+        if (slot != -1) {
 
-                if (itemStack?.isEmpty == true && player.mainHandStack.hasMusicDiscItemType()) {
-                    blockEntity.items.set(slot, player.mainHandStack.copy())
-                    player.mainHandStack.decrement(1)
-                    blockEntity.markDirty()
-                } else {
+            if (itemStackInSlot?.isEmpty == true && player.mainHandStack.hasMusicDiscItemType()) {
+                blockEntity.items.set(slot, player.mainHandStack.copy())
+                player.mainHandStack.decrement(1)
+                blockEntity.markDirty()
+            } else if (itemStackInSlot.hasMusicDiscItemType()) {
 
 //                    val itemEntity = ItemEntity(world, pos.x.toDouble(), pos.y.toDouble(), pos.z.toDouble(), itemStack)
-                    player.inventory.offerOrDrop(itemStack);
-                    itemStack?.decrement(1)
+                player.inventory.offerOrDrop(itemStackInSlot);
+                itemStackInSlot?.decrement(1)
 //                    if (!player.giveItemStack(itemStack)) {
 //                        player.dropItem(itemStack?.copy(), false)
 //                        itemStack?.decrement(1)
 //                    }
 
 //                    world.spawnEntity(itemEntity)
+            } else {
+                screenHandler?.let {
+                    player.openHandledScreen(IRScreenHandlerFactory(screenHandler, pos!!))
                 }
 
             }
@@ -126,7 +137,7 @@ class DiscHolderBlock(
     override fun onStateReplaced(state: BlockState, world: World, pos: BlockPos, newState: BlockState, moved: Boolean) {
         val oldBlockEntity = world.getBlockEntity(pos) as? DiscHolderBlockEntity
         super.onStateReplaced(state, world, pos, newState, moved)
-        if (world.isClient) return
+//        if (world.isClient) return
 
         if (oldBlockEntity?.items?.isNotEmpty() == true) {
             ItemScatterer.spawn(world, pos, oldBlockEntity.items)
@@ -150,7 +161,10 @@ class DiscHolderBlock(
 
 
     override fun createBlockEntity(pos: BlockPos, state: BlockState): BlockEntity? {
-        return DiscHolderBlockEntity(pos, state)
+        val keyType = this.translationKey.split(".").lastOrNull()
+        val type = DiscHolderMod.mapEntitiesTypes.get(keyType)
+
+        return DiscHolderBlockEntity(type, pos, state)
     }
 
     override fun getRenderType(state: BlockState): BlockRenderType {
@@ -185,6 +199,22 @@ class DiscHolderBlock(
 //    }
 
 
+//    override fun neighborUpdate(
+//        state: BlockState?,
+//        world: World?,
+//        pos: BlockPos?,
+//        block: Block?,
+//        fromPos: BlockPos?,
+//        notify: Boolean
+//    ) {
+//        debug("asd")
+//    }
+
+
+    override fun <T : BlockEntity?> getGameEventListener(world: World?, blockEntity: T): GameEventListener? {
+        return super.getGameEventListener(world, blockEntity)
+    }
+
     fun getFacing(state: BlockState): Direction = state[HORIZONTAL_FACING]
 
     companion object {
@@ -200,6 +230,6 @@ class DiscHolderBlock(
     }
 }
 
-private fun ItemStack?.hasMusicDiscItemType(): Boolean {
+fun ItemStack?.hasMusicDiscItemType(): Boolean {
     return (this?.item is MusicDiscItem)
 }

@@ -54,17 +54,17 @@ class DiscHolderBlockEntityGuiDescription(
 
         val t1 = blockInventory.getStack(0)
 
-        val x1 = WButton(getRightClickModeText())
-
-        x1.setOnClick {
-//            blockEntity?.apply {
-//                rightClickMode = !rightClickMode
-//                x1.label = getRightClickModeText()
-//                AutoClickerBlockEntity.sendValueUpdatePacket(rightClickMode, context)
-//            }
-        }
-
-        root.add(x1, root.insets.right / 2 - 1, 3, 5, 1)
+//        val x1 = WButton(getRightClickModeText())
+//
+//        x1.setOnClick {
+////            blockEntity?.apply {
+////                rightClickMode = !rightClickMode
+////                x1.label = getRightClickModeText()
+////                AutoClickerBlockEntity.sendValueUpdatePacket(rightClickMode, context)
+////            }
+//        }
+//
+//        root.add(x1, root.insets.right / 2 - 1, 3, 5, 1)
 
 //        root.add(WTextField(LiteralText("Type something...")).setMaxLength(64), 0, 7, 5, 1)
 //        root.add(WLabel(LiteralText("Large slot:")), 0, 9)
@@ -72,7 +72,7 @@ class DiscHolderBlockEntityGuiDescription(
 //        root.add(WItemSlot.of(blockInventory, 7).setIcon(TextureIcon(Identifier("libgui-test", "saddle.png"))), 7, 9)
 
 
-        root.add(createPlayerInventoryPanel(), 0, 5)
+        root.add(createPlayerInventoryPanel(), 0, 3)
 
 
 //        println(root.toString())
