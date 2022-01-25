@@ -9,6 +9,7 @@ import com.kenza.discholder.utils.openLastWorldOnInit
 import net.fabricmc.api.ModInitializer
 import net.fabricmc.fabric.api.`object`.builder.v1.block.FabricBlockSettings
 import net.fabricmc.fabric.api.`object`.builder.v1.block.entity.FabricBlockEntityTypeBuilder
+import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder
 import net.fabricmc.fabric.api.client.rendering.v1.BlockEntityRendererRegistry
 import net.fabricmc.fabric.api.screenhandler.v1.ScreenHandlerRegistry
 import net.fabricmc.fabric.api.tool.attribute.v1.FabricToolTags
@@ -17,9 +18,7 @@ import net.minecraft.block.BlockState
 import net.minecraft.block.Material
 import net.minecraft.block.entity.BlockEntityType
 import net.minecraft.entity.player.PlayerInventory
-import net.minecraft.item.BlockItem
-import net.minecraft.item.Item
-import net.minecraft.item.ItemGroup
+import net.minecraft.item.*
 import net.minecraft.network.PacketByteBuf
 import net.minecraft.screen.ScreenHandlerContext
 import net.minecraft.screen.ScreenHandlerType
@@ -29,7 +28,6 @@ import net.minecraft.util.math.BlockPos
 import net.minecraft.util.registry.Registry
 import org.apache.logging.log4j.LogManager
 import java.util.*
-import kotlin.collections.HashMap
 
 class DiscHolderMod : ModInitializer {
 
@@ -41,14 +39,14 @@ class DiscHolderMod : ModInitializer {
     override fun onInitialize() {
 
 
-        test1()
+        onConfig()
 
         openLastWorldOnInit()
 
     }
 
 
-    fun test1() {
+    fun onConfig() {
 
 
         DISC_BLOCKENTITY_GUI_HANDLER_TYPE = ScreenHandlerRegistry.registerExtended<DiscHolderBlockEntityGuiDescription>(
@@ -65,18 +63,30 @@ class DiscHolderMod : ModInitializer {
 //        val x1 = "blue_discholder"
 //        registerBlockByName(x1)
 
+        val tabItemName = "blue_discholder"
+
+
         DyeColor.values().map { dyeColor ->
 
-            val x1 = "blue_discholder"
             val itemName = dyeColor.name.lowercase() + "_discholder"
-
             registerBlockByName(itemName)
-//
-//            DiscHolderBlock(
-//                FabricBlockSettings.of(Material.WOOD).strength(6f).breakByTool(FabricToolTags.AXES, 2).requiresTool(),
-//                ::DiscHolderBlockEntityGuiDescription
-//            )
         }
+
+        TAB = FabricItemGroupBuilder.build(
+            Identifier(MOD_ID, "discholder_tab")
+        ) {
+            ItemStack(mapBlocks[tabItemName])
+        }
+
+
+        DyeColor.values().map { dyeColor ->
+
+            val itemName = dyeColor.name.lowercase() + "_discholder"
+            val block = mapBlocks[itemName]
+            val DISC_BLOCK_ITEM = BlockItem(block, Item.Settings().group(TAB))
+            Registry.register(Registry.ITEM, Identifier(MOD_ID, itemName), DISC_BLOCK_ITEM)
+        }
+
 
     }
 
@@ -84,11 +94,11 @@ class DiscHolderMod : ModInitializer {
 
 
         val DISC_BLOCK = DiscHolderBlock(
-            FabricBlockSettings.of(Material.STONE).strength(6f).breakByTool(FabricToolTags.PICKAXES, 2).requiresTool(),
+            FabricBlockSettings.of(Material.WOOD).strength(6f).breakByTool(FabricToolTags.AXES, 2).requiresTool(),
             ::DiscHolderBlockEntityGuiDescription
         )
 
-        val DISC_BLOCK_ITEM = BlockItem(DISC_BLOCK, Item.Settings().group(ItemGroup.REDSTONE))
+        mapBlocks.put(itemName, DISC_BLOCK)
 
 
         var type: BlockEntityType<DiscHolderBlockEntity>? = null
@@ -116,7 +126,6 @@ class DiscHolderMod : ModInitializer {
 
 
         Registry.register(Registry.BLOCK, Identifier(MOD_ID, itemName), DISC_BLOCK)
-        Registry.register(Registry.ITEM, Identifier(MOD_ID, itemName), DISC_BLOCK_ITEM)
 
 
     }
@@ -126,6 +135,7 @@ class DiscHolderMod : ModInitializer {
 
 
         val mapEntitiesTypes = HashMap<String, BlockEntityType<DiscHolderBlockEntity>>()
+        val mapBlocks = HashMap<String, DiscHolderBlock>()
 
 
         private val discholders: Set<Block> = HashSet()
@@ -134,6 +144,8 @@ class DiscHolderMod : ModInitializer {
 //        lateinit var DISC_BLOCK_ITEM: BlockItem
 //        lateinit var DISC_BLOCKENTITY_TYPE: BlockEntityType<DiscHolderBlockEntity>
         lateinit var DISC_BLOCKENTITY_GUI_HANDLER_TYPE: ScreenHandlerType<DiscHolderBlockEntityGuiDescription>
+
+        var TAB: ItemGroup? = null
 
 
         @JvmField
@@ -147,6 +159,7 @@ class DiscHolderMod : ModInitializer {
 
         @JvmField
         val LOGGER = LogManager.getLogger("discholder")
+
 
     }
 }

@@ -14,5 +14,7 @@
   "block.discholder.brown_discholder": "Brown Discholder",
   "block.discholder.red_discholder": "Red Discholder",
   "block.discholder.green_discholder": "Green Discholder",
-  "block.discholder.black_discholder": "Black Discholder"
+  "block.discholder.black_discholder": "Black Discholder",
+
+  "itemGroup.discholder.discholder_tab": "Discholders"
 }

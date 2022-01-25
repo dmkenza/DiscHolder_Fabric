@@ -121,6 +121,10 @@ class DiscHolderBlock(
             }
 
 //            ItemScatterer.spawn(world, pos.x.toDouble(), pos.y.toDouble(), pos.z.toDouble(), player.mainHandStack)
+        }else{
+            screenHandler?.let {
+                player.openHandledScreen(IRScreenHandlerFactory(screenHandler, pos!!))
+            }
         }
 
 
@@ -145,19 +149,6 @@ class DiscHolderBlock(
         }
     }
 
-//    override fun onPlaced(
-//        world: World?,
-//        pos: BlockPos?,
-//        state: BlockState?,
-//        placer: LivingEntity?,
-//        itemStack: ItemStack?
-//    ) {
-////        (world?.getBlockEntity(pos) as? AutoClickerBlockEntity)?.apply {
-////            placerEntityUuid = placer?.uuid
-////            this.markDirty()
-////        }
-//        super.onPlaced(world, pos, state, placer, itemStack)
-//    }
 
 
     override fun createBlockEntity(pos: BlockPos, state: BlockState): BlockEntity? {
