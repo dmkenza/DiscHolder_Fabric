@@ -21,7 +21,7 @@ import net.minecraft.util.registry.Registry
 
 val EMPTY_INT_ARRAY = intArrayOf()
 
-fun identifier(id: String) = Identifier(DiscHolderMod.MOD_ID, id)
+fun identifier(id: String) = Identifier(DiscHolderMod.ID_STRING, id)
 
 fun blockSpriteId(id: String) = SpriteIdentifier(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE, identifier(id))
 

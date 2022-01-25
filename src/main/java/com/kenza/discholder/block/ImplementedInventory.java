@@ -24,7 +24,7 @@ import java.util.List;
 public interface ImplementedInventory extends SidedInventory {
     /**
      * Gets the item list of this inventory.
-     * Must return the same instance every time it's called.
+     * Must return the same instance every time it'music_disc_cleopona.json called.
      *
      * @return the item list
      */
@@ -179,7 +179,7 @@ public interface ImplementedInventory extends SidedInventory {
      * Replaces the current stack in the {@code slot} with the provided stack.
      *
      * <p>If the stack is too big for this inventory ({@link Inventory#getMaxCountPerStack()} ()}),
-     * it gets resized to this inventory's maximum amount.
+     * it gets resized to this inventory'music_disc_cleopona.json maximum amount.
      *
      * @param slot the slot
      * @param stack the stack

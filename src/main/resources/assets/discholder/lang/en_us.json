@@ -16,5 +16,21 @@
   "block.discholder.green_discholder": "Green Discholder",
   "block.discholder.black_discholder": "Black Discholder",
 
-  "itemGroup.discholder.discholder_tab": "Discholders"
+  "itemGroup.discholder.discholder_tab": "Discholders",
+
+
+  "item.discholder.music_disc_baroque_nightmare": "LaRaikaa - Baroque Nightmare",
+  "item.discholder.music_disc_baroque_nightmare.desc": "Baroque Nightmare",
+
+  "item.discholder.music_disc_cleopona": "Yellow Tune - Cleopatra",
+  "item.discholder.music_disc_cleopona.desc": "Cleopatra",
+
+  "item.discholder.music_disc_for_the_new_lunar_republic": "Mumble - For The New Lunar Republic",
+  "item.discholder.music_disc_for_the_new_lunar_republic.desc": "For The New Lunar Republic",
+
+  "item.discholder.music_disc_no_strings_attached": "Jeffthestrider - No Strings Attached",
+  "item.discholder.music_disc_no_strings_attached.desc": "No Strings Attached",
+
+  "item.discholder.music_disc_sun_burst": "Panic - Sun Burst",
+  "item.discholder.music_disc_sun_burst.desc": "Sun Burst"
 }
