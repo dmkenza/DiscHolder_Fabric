@@ -6,6 +6,7 @@ import com.kenza.discholder.block.DiscHolderBlockEntityGuiDescription
 import com.kenza.discholder.block.DiscHolderBlockEntityRenderer
 import com.kenza.discholder.item.UItems
 import com.kenza.discholder.item.USounds
+import com.kenza.discholder.profession.ModProfessions
 import com.kenza.discholder.utils.identifier
 import com.kenza.discholder.utils.openLastWorldOnInit
 import net.fabricmc.api.ModInitializer
@@ -42,9 +43,11 @@ class DiscHolderMod : ModInitializer {
 
 
         onConfig()
+        ModProfessions.fillTradeData()
 
 
         openLastWorldOnInit()
+
 
     }
 
@@ -93,6 +96,8 @@ class DiscHolderMod : ModInitializer {
             Registry.register(Registry.ITEM, Identifier(ID_STRING, itemName), DISC_BLOCK_ITEM)
         }
 
+
+        Items.MUSIC_DISC_11
 
     }
 
@@ -165,6 +170,12 @@ class DiscHolderMod : ModInitializer {
 
         @JvmField
         val LOGGER = LogManager.getLogger("discholder")
+
+
+        @JvmStatic
+        fun debug(msg: String) {
+            DiscHolderMod.LOGGER.debug(msg)
+        }
 
 
     }

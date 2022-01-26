@@ -10,6 +10,7 @@ import net.minecraft.block.entity.BlockEntityType
 import net.minecraft.client.gui.screen.Screen
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.entity.player.PlayerInventory
+import net.minecraft.item.Item
 import net.minecraft.item.ItemPlacementContext
 import net.minecraft.item.ItemStack
 import net.minecraft.item.MusicDiscItem
@@ -223,4 +224,8 @@ class DiscHolderBlock(
 
 fun ItemStack?.hasMusicDiscItemType(): Boolean {
     return (this?.item is MusicDiscItem)
+}
+
+fun Item?.hasMusicDiscItemType(): Boolean {
+    return (this is MusicDiscItem)
 }

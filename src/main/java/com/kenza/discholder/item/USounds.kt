@@ -21,4 +21,6 @@ object USounds {
     val FOR_THE_NEW_LUNAR_REPUBLIC = register("record.for_the_new_lunar_republic")
     val NO_STRINGS_ATTACHED = register("record.no_strings_attached")
     val SUN_BURST = register("record.sun_burst")
+    val HARMONY = register("record.harmony")
+    val SPIRIT_ANIMAL = register("record.spirit_animal")
 }

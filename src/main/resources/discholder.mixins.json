@@ -4,6 +4,8 @@
   "package": "com.kenza.discholder.mixin",
   "compatibilityLevel": "JAVA_16",
   "mixins": [
+    "MerchantScreenHandlerMixin",
+    "TradeOfferMixin"
   ],
   "client": [
   ],

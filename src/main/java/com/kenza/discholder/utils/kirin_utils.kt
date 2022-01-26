@@ -44,3 +44,7 @@ private fun onScreenInit(screen: Screen?, buttons: ScreenInitCallback.ButtonList
 val <T> Optional<T>.value: T?
     get() = orElse(null)
 
+
+fun Any.isRenderThread(): Boolean {
+    return Thread.currentThread().name.equals("Render thread")
+}

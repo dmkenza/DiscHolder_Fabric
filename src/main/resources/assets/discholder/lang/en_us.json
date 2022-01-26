@@ -18,6 +18,8 @@
 
   "itemGroup.discholder.discholder_tab": "Discholders",
 
+  "entity.minecraft.villager.dj": "DJ",
+
 
   "item.discholder.music_disc_baroque_nightmare": "LaRaikaa - Baroque Nightmare",
   "item.discholder.music_disc_baroque_nightmare.desc": "Baroque Nightmare",
@@ -32,5 +34,15 @@
   "item.discholder.music_disc_no_strings_attached.desc": "No Strings Attached",
 
   "item.discholder.music_disc_sun_burst": "Panic - Sun Burst",
-  "item.discholder.music_disc_sun_burst.desc": "Sun Burst"
+  "item.discholder.music_disc_sun_burst.desc": "Sun Burst",
+
+  "item.discholder.music_disc_harmony": "Flyghtning - The Tree of Harmony",
+  "item.discholder.music_disc_harmony.desc": "The Tree of Harmony",
+
+  "item.discholder.music_disc_spirit_animal": "MrMehster - SP1RIT ANIMAL",
+  "item.discholder.music_disc_spirit_animal.desc": "SP1RIT ANIMAL",
+
+
+  "item.discholder.music_disc_empty": "Any Disc",
+  "item.discholder.music_disc_empty.desc": "Any Disc"
 }

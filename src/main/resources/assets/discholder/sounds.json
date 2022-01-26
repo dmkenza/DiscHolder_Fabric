@@ -28,5 +28,18 @@
     "sounds": [
       { "name": "discholder:record/sun_burst", "stream": true}
     ]
+  },
+
+  "record.harmony": {
+    "category": "blocks",
+    "sounds": [
+      { "name": "discholder:record/harmony", "stream": true}
+    ]
+  },
+  "record.spirit_animal": {
+    "category": "blocks",
+    "sounds": [
+      { "name": "discholder:record/spirit_animal", "stream": true}
+    ]
   }
 }
