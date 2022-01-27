@@ -43,10 +43,13 @@ class DiscHolderMod : ModInitializer {
 
 
         onConfig()
-        UProfessions.fillTradeData()
+
+        USounds.onInit()
+        UItems.onInit()
+        UProfessions.onInit()
 
 
-        openLastWorldOnInit()
+//        openLastWorldOnInit()
 
 
     }
@@ -66,8 +69,7 @@ class DiscHolderMod : ModInitializer {
             })
 
 
-        USounds.onInit()
-        UItems.onInit()
+
 
         val tabItemName = "blue_discholder"
 
@@ -128,9 +130,6 @@ class DiscHolderMod : ModInitializer {
         Registry.register(Registry.BLOCK_ENTITY_TYPE, Identifier(ID_STRING, itemName), DISC_BLOCKENTITY_TYPE)
 
 
-        BlockEntityRendererRegistry.register(DISC_BLOCKENTITY_TYPE) {
-            DiscHolderBlockEntityRenderer()
-        }
 
 
         Registry.register(Registry.BLOCK, Identifier(ID_STRING, itemName), DISC_BLOCK)

@@ -2,8 +2,8 @@
   "schemaVersion": 1,
   "id": "discholder",
   "version": "${version}",
-  "name": "Kenza's Disc Holder",
-  "description": ".",
+  "name": "Kenza's Disc Holder and DJ",
+  "description": "Add disc holders and Dj villager to the game.",
   "authors": [
     "DmitryKenza"
   ],

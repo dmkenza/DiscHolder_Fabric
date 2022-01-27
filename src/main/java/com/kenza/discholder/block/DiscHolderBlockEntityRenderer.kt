@@ -34,7 +34,7 @@ class DiscHolderBlockEntityRenderer : BlockEntityRenderer<DiscHolderBlockEntity>
         light: Int,
         overlay: Int
     ) {
-        val player = mc.server?.playerManager?.playerList?.firstOrNull() ?: return
+        val player = mc.player ?: return
 
         player.mainHandStack ?: return
 
@@ -47,9 +47,6 @@ class DiscHolderBlockEntityRenderer : BlockEntityRenderer<DiscHolderBlockEntity>
         for (i in 0..6) {
 //            val item: ItemStack = player.mainHandStack //entity.records.getStackInSlot(i)
             val itemStack: ItemStack = entity.getDiscInSlot(i)
-
-
-
 
             if (itemStack.isEmpty) continue
 

@@ -27,7 +27,7 @@ object UProfessions {
     val DJ = VillagerProfession.register("dj", DJ_POI, ENTITY_VILLAGER_WORK_DJ)
 
 
-    fun fillTradeData() {
+    fun onInit() {
 
         val djLevel1 = arrayOf(
             BuyMusicForEmeraldsFactory(20, 5),
