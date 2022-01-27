@@ -19,6 +19,7 @@ import net.minecraft.util.math.Direction
 import net.minecraft.util.math.Matrix4f
 import net.minecraft.util.math.Quaternion
 import net.minecraft.util.math.Vec3f
+import kotlin.math.absoluteValue
 
 class DiscHolderBlockEntityRenderer : BlockEntityRenderer<DiscHolderBlockEntity> {
 
@@ -58,7 +59,7 @@ class DiscHolderBlockEntityRenderer : BlockEntityRenderer<DiscHolderBlockEntity>
 
             if (slot == i && discItem != null) {
                 val text = discItem.description.formatted()
-                renderText(matrices, vertexConsumers, slot,  text ,isXAxis ,light)
+                renderText(matrices, vertexConsumers, slot, text, isXAxis, light)
             }
 
 
@@ -85,7 +86,6 @@ class DiscHolderBlockEntityRenderer : BlockEntityRenderer<DiscHolderBlockEntity>
             matrices.pop()
 
 
-
         }
 
 
@@ -103,8 +103,12 @@ class DiscHolderBlockEntityRenderer : BlockEntityRenderer<DiscHolderBlockEntity>
             )
         ) {
 
-            val inc =
+            var inc =
                 if (facing === Direction.NORTH || facing === Direction.SOUTH) target.pos.x % 1 else target.pos.z % 1
+
+            if(inc <0){
+                inc += 1
+            }
             getSlotInBlock(inc)
 
         } else {
@@ -150,6 +154,8 @@ class DiscHolderBlockEntityRenderer : BlockEntityRenderer<DiscHolderBlockEntity>
 //        val x1 = vertexConsumers.getBuffer(RenderLayer.getCutout())
 //        vertexConsumers.getBuffer(RenderLayers.getBlockLayer(entity.cachedState)),
 
+
+        /** extra render text for Iris mod fix transparent problem */
         mc.textRenderer.draw(
             matrices,
             text,

@@ -5,6 +5,7 @@
 package com.kenza.discholder.profession
 
 import com.google.common.collect.ImmutableMap
+import com.kenza.discholder.item.USounds.ENTITY_VILLAGER_WORK_DJ
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap
 import net.minecraft.block.Blocks
@@ -19,11 +20,11 @@ import net.minecraft.village.VillagerProfession
 import net.minecraft.world.gen.feature.StructureFeature
 import net.minecraft.world.poi.PointOfInterestType
 
-object ModProfessions {
+object UProfessions {
 
 
     val DJ_POI = PointOfInterestType.register("dj", PointOfInterestType.getAllStatesOf(Blocks.JUKEBOX), 1, 1)
-    val DJ = VillagerProfession.register("dj", DJ_POI, SoundEvents.ENTITY_VILLAGER_WORK_CARTOGRAPHER)
+    val DJ = VillagerProfession.register("dj", DJ_POI, ENTITY_VILLAGER_WORK_DJ)
 
 
     fun fillTradeData() {

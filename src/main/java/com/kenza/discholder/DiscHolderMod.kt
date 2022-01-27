@@ -6,7 +6,7 @@ import com.kenza.discholder.block.DiscHolderBlockEntityGuiDescription
 import com.kenza.discholder.block.DiscHolderBlockEntityRenderer
 import com.kenza.discholder.item.UItems
 import com.kenza.discholder.item.USounds
-import com.kenza.discholder.profession.ModProfessions
+import com.kenza.discholder.profession.UProfessions
 import com.kenza.discholder.utils.identifier
 import com.kenza.discholder.utils.openLastWorldOnInit
 import net.fabricmc.api.ModInitializer
@@ -43,7 +43,7 @@ class DiscHolderMod : ModInitializer {
 
 
         onConfig()
-        ModProfessions.fillTradeData()
+        UProfessions.fillTradeData()
 
 
         openLastWorldOnInit()
@@ -57,7 +57,7 @@ class DiscHolderMod : ModInitializer {
 
         DISC_BLOCKENTITY_GUI_HANDLER_TYPE = ScreenHandlerRegistry.registerExtended<DiscHolderBlockEntityGuiDescription>(
             Identifier(
-                ID_STRING, "qwerty"
+                ID_STRING, "gui_handler"
             ),
             ScreenHandlerRegistry.ExtendedClientHandlerFactory<DiscHolderBlockEntityGuiDescription> { syncId: Int, inv: PlayerInventory, buf: PacketByteBuf ->
                 DiscHolderBlockEntityGuiDescription(
@@ -65,9 +65,6 @@ class DiscHolderMod : ModInitializer {
                 )
             })
 
-
-//        val x1 = "blue_discholder"
-//        registerBlockByName(x1)
 
         USounds.onInit()
         UItems.onInit()
@@ -114,8 +111,8 @@ class DiscHolderMod : ModInitializer {
 
         var type: BlockEntityType<DiscHolderBlockEntity>? = null
 
-        val DISC_BLOCKENTITY_TYPE = FabricBlockEntityTypeBuilder.create<DiscHolderBlockEntity>(
-            FabricBlockEntityTypeBuilder.Factory<DiscHolderBlockEntity> { pos: BlockPos?, state: BlockState? ->
+        val DISC_BLOCKENTITY_TYPE = FabricBlockEntityTypeBuilder.create(
+            { pos: BlockPos?, state: BlockState? ->
                 DiscHolderBlockEntity(
                     type!!,
                     pos,

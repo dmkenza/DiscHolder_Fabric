@@ -2,6 +2,7 @@ package com.kenza.discholder.item
 
 import com.kenza.discholder.DiscHolderMod
 import com.kenza.discholder.DiscHolderMod.Companion.ID_STRING
+import com.kenza.discholder.DiscHolderMod.Companion.TAB
 import com.kenza.discholder.item.USounds.BAROQUE_NIGHTMARE
 import com.kenza.discholder.item.USounds.CLEOPONA
 import com.kenza.discholder.item.USounds.FOR_THE_NEW_LUNAR_REPUBLIC
@@ -15,6 +16,7 @@ import net.minecraft.item.Item
 import net.minecraft.item.ItemGroup
 import net.minecraft.item.MusicDiscItem
 import net.minecraft.sound.SoundEvent
+import net.minecraft.sound.SoundEvents
 import net.minecraft.util.Identifier
 import net.minecraft.util.Rarity
 import net.minecraft.util.registry.Registry
@@ -36,6 +38,11 @@ object UItems {
 
 
     fun onInit(){
+//        Registry.register(Registry.SOUND_EVENT,
+
+        SoundEvents.ENTITY_VILLAGER_WORK_ARMORER
+
+
     }
 
     fun <T : Item?> register(name: String?, item: T): T {
@@ -50,7 +57,7 @@ object UItems {
         return register(name, object : MusicDiscItem(
             1, sound, Settings()
                 .maxCount(1)
-                .group(ItemGroup.MISC)
+                .group(TAB)
                 .rarity(Rarity.RARE)
         ) {})
     }

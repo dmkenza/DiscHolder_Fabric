@@ -23,4 +23,7 @@ object USounds {
     val SUN_BURST = register("record.sun_burst")
     val HARMONY = register("record.harmony")
     val SPIRIT_ANIMAL = register("record.spirit_animal")
+
+
+    val ENTITY_VILLAGER_WORK_DJ = register("profession.dj")
 }

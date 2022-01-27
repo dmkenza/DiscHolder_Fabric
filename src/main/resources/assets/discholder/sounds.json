@@ -41,5 +41,14 @@
     "sounds": [
       { "name": "discholder:record/spirit_animal", "stream": true}
     ]
+  },
+
+  "profession.dj": {
+    "category": "ambient",
+    "sounds": [
+      { "name": "discholder:profession/dj", "stream": true}
+    ]
   }
+
+
 }

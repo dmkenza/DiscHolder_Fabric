@@ -31,6 +31,7 @@ import net.minecraft.util.shape.VoxelShape
 import net.minecraft.world.BlockView
 import net.minecraft.world.World
 import net.minecraft.world.event.listener.GameEventListener
+import kotlin.math.absoluteValue
 
 class DiscHolderBlock(
     settings: Settings?,
@@ -89,7 +90,10 @@ class DiscHolderBlock(
 //            if (!world.isClient) {
         val vec3d: Vec3d = hitResult.pos
         val facing: Direction = state[HORIZONTAL_FACING]
-        val inc = if (facing === Direction.NORTH || facing === Direction.SOUTH) vec3d.x % 1 else vec3d.z % 1
+        var inc = if (facing === Direction.NORTH || facing === Direction.SOUTH) vec3d.x % 1 else vec3d.z % 1
+        if(inc <0){
+            inc += 1
+        }
 
         val slot: Int = getSlotInBlock(inc)
 //                val heldItem: ItemStack = player.mainHandStack
