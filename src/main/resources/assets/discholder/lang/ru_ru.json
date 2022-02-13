@@ -1,0 +1,48 @@
+{
+  "block.discholder.white_discholder": "Белая стойка для пластинок",
+  "block.discholder.orange_discholder": "Оранжевая стойка для пластинок",
+  "block.discholder.magenta_discholder": "Пурпурная стойка для пластинок",
+  "block.discholder.light_blue_discholder": "Голубая стойка для пластинок",
+  "block.discholder.yellow_discholder": "Жёлтая стойка для пластинок",
+  "block.discholder.lime_discholder": "Салатовая стойка для пластинок",
+  "block.discholder.pink_discholder": "Розовая стойка для пластинок",
+  "block.discholder.gray_discholder": "Серая стойка для пластинок",
+  "block.discholder.light_gray_discholder": "Светло-серая стойка для пластинок",
+  "block.discholder.cyan_discholder": "Бирюзовая стойка для пластинок",
+  "block.discholder.purple_discholder": "Фиолетовая стойка для пластинок",
+  "block.discholder.blue_discholder": "Синяя стойка для пластинок",
+  "block.discholder.brown_discholder": "Коричневая стойка для пластинок",
+  "block.discholder.red_discholder": "Красная стойка для пластинок",
+  "block.discholder.green_discholder": "Зелёная стойка для пластинок",
+  "block.discholder.black_discholder": "Чёрная стойка для пластинок",
+
+  "itemGroup.discholder.discholder_tab": "Стойки для пластинок",
+
+  "entity.minecraft.villager.dj": "Диджей",
+
+
+  "item.discholder.music_disc_baroque_nightmare": "LaRaikaa - Baroque Nightmare",
+  "item.discholder.music_disc_baroque_nightmare.desc": "Baroque Nightmare",
+
+  "item.discholder.music_disc_cleopona": "Yellow Tune - Cleopatra",
+  "item.discholder.music_disc_cleopona.desc": "Cleopatra",
+
+  "item.discholder.music_disc_for_the_new_lunar_republic": "Mumble - For The New Lunar Republic",
+  "item.discholder.music_disc_for_the_new_lunar_republic.desc": "For The New Lunar Republic",
+
+  "item.discholder.music_disc_no_strings_attached": "Jeffthestrider - No Strings Attached",
+  "item.discholder.music_disc_no_strings_attached.desc": "No Strings Attached",
+
+  "item.discholder.music_disc_sun_burst": "Panic - Sun Burst",
+  "item.discholder.music_disc_sun_burst.desc": "Sun Burst",
+
+  "item.discholder.music_disc_harmony": "Flyghtning - The Tree of Harmony",
+  "item.discholder.music_disc_harmony.desc": "The Tree of Harmony",
+
+  "item.discholder.music_disc_spirit_animal": "MrMehster - SP1RIT ANIMAL",
+  "item.discholder.music_disc_spirit_animal.desc": "SP1RIT ANIMAL",
+
+
+  "item.discholder.music_disc_empty": "Любой диск",
+  "item.discholder.music_disc_empty.desc": "Любой диск"
+}
