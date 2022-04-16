@@ -90,6 +90,7 @@ class DiscHolderMod : ModInitializer {
 
             val itemName = dyeColor.name.lowercase() + "_discholder"
             val block = mapBlocks[itemName]
+            println(itemName)
             val DISC_BLOCK_ITEM = BlockItem(block, Item.Settings().group(TAB))
             Registry.register(Registry.ITEM, Identifier(ID_STRING, itemName), DISC_BLOCK_ITEM)
         }
@@ -104,7 +105,7 @@ class DiscHolderMod : ModInitializer {
 
         val DISC_BLOCK = DiscHolderBlock(
 //            FabricBlockSettings.of(Material.WOOD).strength(6f).breakByTool(FabricToolTags.AXES, 2).requiresTool(),
-            FabricBlockSettings.of(Material.WOOD).strength(6f).requiresTool(),
+            FabricBlockSettings.of(Material.WOOD).requiresTool().strength(6f),
             ::DiscHolderBlockEntityGuiDescription
         )
 
