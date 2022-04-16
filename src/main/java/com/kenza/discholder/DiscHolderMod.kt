@@ -15,7 +15,6 @@ import net.fabricmc.fabric.api.`object`.builder.v1.block.entity.FabricBlockEntit
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder
 import net.fabricmc.fabric.api.client.rendering.v1.BlockEntityRendererRegistry
 import net.fabricmc.fabric.api.screenhandler.v1.ScreenHandlerRegistry
-import net.fabricmc.fabric.api.tool.attribute.v1.FabricToolTags
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
 import net.minecraft.block.Material
@@ -104,7 +103,8 @@ class DiscHolderMod : ModInitializer {
 
 
         val DISC_BLOCK = DiscHolderBlock(
-            FabricBlockSettings.of(Material.WOOD).strength(6f).breakByTool(FabricToolTags.AXES, 2).requiresTool(),
+//            FabricBlockSettings.of(Material.WOOD).strength(6f).breakByTool(FabricToolTags.AXES, 2).requiresTool(),
+            FabricBlockSettings.of(Material.WOOD).strength(6f).requiresTool(),
             ::DiscHolderBlockEntityGuiDescription
         )
 
