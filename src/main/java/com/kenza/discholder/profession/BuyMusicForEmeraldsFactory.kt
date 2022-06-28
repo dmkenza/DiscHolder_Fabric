@@ -19,8 +19,7 @@ class BuyMusicForEmeraldsFactory(maxUses: Int, experience: Int) : TradeOffers.Fa
     private val experience: Int
     private val multiplier: Float
 
-    override fun create(entity: Entity, random: Random): TradeOffer? {
-
+    override fun create(entity: Entity?, random: net.minecraft.util.math.random.Random?): TradeOffer? {
 
         val itemStack = ItemStack(MUSIC_DISC_EMPTY, 1)
         return TradeOffer(itemStack, ItemStack(Items.EMERALD).apply {
@@ -33,4 +32,5 @@ class BuyMusicForEmeraldsFactory(maxUses: Int, experience: Int) : TradeOffers.Fa
         this.experience = experience
         multiplier = 0.05f
     }
+
 }

@@ -19,8 +19,10 @@ import net.minecraft.screen.NamedScreenHandlerFactory
 import net.minecraft.screen.ScreenHandler
 import net.minecraft.screen.ScreenHandlerContext
 import net.minecraft.server.network.ServerPlayerEntity
-import net.minecraft.text.LiteralText
+import net.minecraft.text.LiteralTextContent
+import net.minecraft.text.MutableText
 import net.minecraft.text.Text
+import net.minecraft.text.TextContent
 import net.minecraft.util.collection.DefaultedList
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
@@ -65,7 +67,7 @@ class DiscHolderBlockEntity(type: BlockEntityType<DiscHolderBlockEntity>?, pos: 
     }
 
     override fun getDisplayName(): Text {
-        return LiteralText("Disc Holder")
+        return MutableText.of(LiteralTextContent("Disc Holder"))
     }
 
     override fun toUpdatePacket(): BlockEntityUpdateS2CPacket {

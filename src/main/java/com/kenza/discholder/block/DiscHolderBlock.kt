@@ -76,6 +76,22 @@ class DiscHolderBlock(
 
     }
 
+    @Suppress("DEPRECATION")
+    override fun onStateReplaced(state: BlockState, world: World, pos: BlockPos, newState: BlockState, moved: Boolean) {
+        val oldBlockEntity = world.getBlockEntity(pos) as? DiscHolderBlockEntity
+        super.onStateReplaced(state, world, pos, newState, moved)
+//        if (world.isClient) return
+
+        if (oldBlockEntity?.items?.isNotEmpty() == true) {
+            ItemScatterer.spawn(world, pos, oldBlockEntity.items)
+            world.updateComparators(pos, this)
+        }
+    }
+
+    override fun getRenderType(state: BlockState): BlockRenderType {
+        return BlockRenderType.MODEL
+    }
+
     override fun onUse(
         state: BlockState,
         world: World,
@@ -142,18 +158,6 @@ class DiscHolderBlock(
         return ActionResult.SUCCESS
     }
 
-    @Suppress("DEPRECATION")
-    override fun onStateReplaced(state: BlockState, world: World, pos: BlockPos, newState: BlockState, moved: Boolean) {
-        val oldBlockEntity = world.getBlockEntity(pos) as? DiscHolderBlockEntity
-        super.onStateReplaced(state, world, pos, newState, moved)
-//        if (world.isClient) return
-
-        if (oldBlockEntity?.items?.isNotEmpty() == true) {
-            ItemScatterer.spawn(world, pos, oldBlockEntity.items)
-            world.updateComparators(pos, this)
-        }
-    }
-
 
 
     override fun createBlockEntity(pos: BlockPos, state: BlockState): BlockEntity? {
@@ -163,9 +167,7 @@ class DiscHolderBlock(
         return DiscHolderBlockEntity(type, pos, state)
     }
 
-    override fun getRenderType(state: BlockState): BlockRenderType {
-        return BlockRenderType.MODEL
-    }
+
 
 
 //
@@ -206,10 +208,6 @@ class DiscHolderBlock(
 //        debug("asd")
 //    }
 
-
-    override fun <T : BlockEntity?> getGameEventListener(world: World?, blockEntity: T): GameEventListener? {
-        return super.getGameEventListener(world, blockEntity)
-    }
 
     fun getFacing(state: BlockState): Direction = state[HORIZONTAL_FACING]
 

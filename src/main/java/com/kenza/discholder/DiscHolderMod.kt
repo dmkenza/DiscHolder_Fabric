@@ -9,6 +9,7 @@ import com.kenza.discholder.item.USounds
 import com.kenza.discholder.profession.UProfessions
 import com.kenza.discholder.utils.identifier
 import com.kenza.discholder.utils.openLastWorldOnInit
+import com.kenza.discholder.utils.registerScreenHandler
 import net.fabricmc.api.ModInitializer
 import net.fabricmc.fabric.api.`object`.builder.v1.block.FabricBlockSettings
 import net.fabricmc.fabric.api.`object`.builder.v1.block.entity.FabricBlockEntityTypeBuilder
@@ -57,24 +58,23 @@ class DiscHolderMod : ModInitializer {
     fun onConfig() {
 
 
-        DISC_BLOCKENTITY_GUI_HANDLER_TYPE = ScreenHandlerRegistry.registerExtended<DiscHolderBlockEntityGuiDescription>(
-            Identifier(
-                ID_STRING, "gui_handler"
-            ),
-            ScreenHandlerRegistry.ExtendedClientHandlerFactory<DiscHolderBlockEntityGuiDescription> { syncId: Int, inv: PlayerInventory, buf: PacketByteBuf ->
-                DiscHolderBlockEntityGuiDescription(
-                    syncId, inv, ScreenHandlerContext.create(inv.player.world, buf.readBlockPos())
-                )
-            })
+//        DISC_BLOCKENTITY_GUI_HANDLER_TYPE = ScreenHandlerRegistry.registerExtended<DiscHolderBlockEntityGuiDescription>(
+//            Identifier(
+//                ID_STRING, "gui_handler"
+//            ),
+//            ScreenHandlerRegistry.ExtendedClientHandlerFactory<DiscHolderBlockEntityGuiDescription> { syncId: Int, inv: PlayerInventory, buf: PacketByteBuf ->
+//                DiscHolderBlockEntityGuiDescription(
+//                    syncId, inv, ScreenHandlerContext.create(inv.player.world, buf.readBlockPos())
+//                )
+//            })
 
-
+        DISC_BLOCKENTITY_GUI_HANDLER_TYPE = ID_MOD.registerScreenHandler(::DiscHolderBlockEntityGuiDescription)
 
 
         val tabItemName = "blue_discholder"
 
 
         DyeColor.values().map { dyeColor ->
-
             val itemName = dyeColor.name.lowercase() + "_discholder"
             registerBlockByName(itemName)
         }
@@ -90,7 +90,6 @@ class DiscHolderMod : ModInitializer {
 
             val itemName = dyeColor.name.lowercase() + "_discholder"
             val block = mapBlocks[itemName]
-            println(itemName)
             val DISC_BLOCK_ITEM = BlockItem(block, Item.Settings().group(TAB))
             Registry.register(Registry.ITEM, Identifier(ID_STRING, itemName), DISC_BLOCK_ITEM)
         }
@@ -131,8 +130,6 @@ class DiscHolderMod : ModInitializer {
         Registry.register(Registry.BLOCK_ENTITY_TYPE, Identifier(ID_STRING, itemName), DISC_BLOCKENTITY_TYPE)
 
 
-
-
         Registry.register(Registry.BLOCK, Identifier(ID_STRING, itemName), DISC_BLOCK)
 
 
@@ -160,7 +157,7 @@ class DiscHolderMod : ModInitializer {
         val ID_STRING = "discholder"
 
         @JvmField
-        val ID_ITEM = identifier(ID_STRING)
+        val ID_MOD = identifier(ID_STRING)
 
         val UPDATE_INV_PACKET_ID = identifier("update")
 

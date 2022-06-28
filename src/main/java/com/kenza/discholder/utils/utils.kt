@@ -1,8 +1,8 @@
 package com.kenza.discholder.utils
 
 import com.kenza.discholder.DiscHolderMod
+import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerType
 import net.fabricmc.fabric.api.screenhandler.v1.ScreenHandlerRegistry
-import net.fabricmc.fabric.impl.screenhandler.ExtendedScreenHandlerType
 import net.minecraft.block.Block
 import net.minecraft.block.entity.BlockEntityType
 import net.minecraft.client.util.SpriteIdentifier
@@ -50,12 +50,12 @@ fun Identifier.blockEntityType(entityType: BlockEntityType<*>): Identifier {
 
 //fun itemSettings(): FabricItemSettings = FabricItemSettings().group(IndustrialRevolution.MOD_GROUP)
 
-fun <T : ScreenHandler> Identifier.registerScreenHandler(
-    f: (Int, PlayerInventory, ScreenHandlerContext) -> T
-): ExtendedScreenHandlerType<T> =
-    ScreenHandlerRegistry.registerExtended(this) { syncId, inv, buf ->
-        f(syncId, inv, ScreenHandlerContext.create(inv.player.world, buf.readBlockPos()))
-    } as ExtendedScreenHandlerType<T>
+//fun <T : ScreenHandler> Identifier.registerScreenHandler(
+//    f: (Int, PlayerInventory, ScreenHandlerContext) -> T
+//): ExtendedScreenHandlerType<T> =
+//    ScreenHandlerRegistry.registerExtended(this) { syncId, inv, buf ->
+//        f(syncId, inv, ScreenHandlerContext.create(inv.player.world, buf.readBlockPos()))
+//    } as ExtendedScreenHandlerType<T>
 
 
 fun ChunkPos.toNbt() = NbtCompound().also {
@@ -81,3 +81,11 @@ private val DIRECTIONS = Direction.values()
 
 val Fluid?.rawId: Int
     get() = Registry.FLUID.getRawId(this)
+
+
+fun <T : ScreenHandler> Identifier.registerScreenHandler(
+    f: (Int, PlayerInventory, ScreenHandlerContext) -> T
+): ExtendedScreenHandlerType<T> =
+    ScreenHandlerRegistry.registerExtended(this) { syncId, inv, buf ->
+        f(syncId, inv, ScreenHandlerContext.create(inv.player.world, buf.readBlockPos()))
+    } as ExtendedScreenHandlerType<T>
