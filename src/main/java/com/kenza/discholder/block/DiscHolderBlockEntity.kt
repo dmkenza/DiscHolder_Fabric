@@ -1,6 +1,7 @@
 package com.kenza.discholder.block
 
 import com.kenza.discholder.DiscHolderMod.Companion.UPDATE_INV_PACKET_ID
+import com.kenza.discholder.utils.literal
 import io.netty.buffer.Unpooled
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking
@@ -67,7 +68,7 @@ class DiscHolderBlockEntity(type: BlockEntityType<DiscHolderBlockEntity>?, pos: 
     }
 
     override fun getDisplayName(): Text {
-        return MutableText.of(LiteralTextContent("Disc Holder"))
+        return literal("Disc Holder")
     }
 
     override fun toUpdatePacket(): BlockEntityUpdateS2CPacket {

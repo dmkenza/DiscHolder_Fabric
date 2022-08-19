@@ -68,7 +68,15 @@ class DiscHolderMod : ModInitializer {
 //                )
 //            })
 
-        DISC_BLOCKENTITY_GUI_HANDLER_TYPE = ID_MOD.registerScreenHandler(::DiscHolderBlockEntityGuiDescription)
+//        DISC_BLOCKENTITY_GUI_HANDLER_TYPE = ID_MOD.registerScreenHandler(::DiscHolderBlockEntityGuiDescription)
+
+        DISC_BLOCKENTITY_GUI_HANDLER_TYPE = ScreenHandlerRegistry.registerExtended<DiscHolderBlockEntityGuiDescription>(
+            ID_MOD,
+            { syncId: Int, inv: PlayerInventory, buf: PacketByteBuf ->
+                DiscHolderBlockEntityGuiDescription(
+                    syncId, inv, ScreenHandlerContext.create(inv.player.world, buf.readBlockPos())
+                )
+            })
 
 
         val tabItemName = "blue_discholder"
@@ -114,9 +122,9 @@ class DiscHolderMod : ModInitializer {
         var type: BlockEntityType<DiscHolderBlockEntity>? = null
 
         val DISC_BLOCKENTITY_TYPE = FabricBlockEntityTypeBuilder.create(
-            { pos: BlockPos?, state: BlockState? ->
+            { pos: BlockPos, state: BlockState? ->
                 DiscHolderBlockEntity(
-                    type!!,
+                    type,
                     pos,
                     state
                 )

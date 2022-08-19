@@ -13,6 +13,8 @@ import net.minecraft.nbt.NbtCompound
 import net.minecraft.screen.PlayerScreenHandler
 import net.minecraft.screen.ScreenHandler
 import net.minecraft.screen.ScreenHandlerContext
+import net.minecraft.text.MutableText
+import net.minecraft.text.Text
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.ChunkPos
 import net.minecraft.util.math.Direction
@@ -82,6 +84,8 @@ private val DIRECTIONS = Direction.values()
 val Fluid?.rawId: Int
     get() = Registry.FLUID.getRawId(this)
 
+
+fun literal(text: String): MutableText = Text.literal(text)
 
 fun <T : ScreenHandler> Identifier.registerScreenHandler(
     f: (Int, PlayerInventory, ScreenHandlerContext) -> T
